@@ -1,33 +1,29 @@
+import { AppDataSource, CredentialModel, UserModel } from "../config/data-source";
 import { CredentialDto } from "../dto/credentialsDto";
 import { UserDto } from "../dto/userDto";
-import IUser from "../interfaces/IUsers";
+import { Credential } from "../entities/Credential";
+import { Turn } from "../entities/Turn";
+import { User } from "../entities/User";
+import IUser from "../interfaces/IUser";
 import { createCredentialService } from "./credentialService";
 
-let users: IUser[] = []
 
-let id: number = 1;
-
-export const getUserService = async (): Promise<IUser[]>  => {
+export const getUserService = async (): Promise<User[]> => {
+    const users = await UserModel.find({relations: ["Turn"]});
     return users;
-}
+};
 
-export const getUserByIdService = async (id: number): Promise<IUser | null> => {
-    const user = users.find((user: IUser) => user.id === id);
+export const getUserByIdService = async (id: number): Promise<User | null> => {
+    const users = await UserModel.find({relations: ["Turn"]});
+    const user = users.find((Turn) => Turn.id === id);
     return user || null;
-    }
+};
 
-export const createUserService = async (user: UserDto, credential: CredentialDto): Promise<IUser> => {
-    const newCredentialId:number = await createCredentialService(credential.username, credential.password);
-    const newUser: IUser = {
-        id,
-        name: user.name,
-        email: user.email,
-        birthdate: user.birthdate,
-        nDni: user.nDni,
-        credentialsId: newCredentialId
-    }
-    users.push(newUser)
-    id++
-
+export const createUserService = async (users: UserDto, credential: CredentialDto) => {
+    const newUser: User = await UserModel.create(users);
+    const newCredential: Credential = await createCredentialService(credential.username, credential.password);
+    newUser.Credential = newCredential;
+    const result = await UserModel.save(newUser);
+    
     return newUser;
 }

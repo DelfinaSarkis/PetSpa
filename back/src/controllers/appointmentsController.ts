@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { cancelTurn, createNewTurn, getTurnById, getTurnsService } from "../services/turnService";
-import { error } from "console";
-import { statusEnum } from "../interfaces/ITurn";
+import { cancelTurnService, createNewTurnService, getTurnByIdService, getTurnsService } from "../services/turnService";
+
 
 export async function getTurnsController(req:Request, res:Response) {
     try{
@@ -16,7 +15,7 @@ export async function getTurnsController(req:Request, res:Response) {
 export async function getTurnByIdController(req:Request, res:Response) {
     try{
         const id = (Number(req.params.id));
-        const turn = await getTurnById(id);
+        const turn = await getTurnByIdService(id);
         if(turn){
             res.status(200).json(turn);
         } else{
@@ -35,7 +34,7 @@ export async function createNewTurnController(req:Request, res:Response) {
             res.status(400).json({error: 'No se encuentra el usuario para asignarle el turno'});
             return;
         }
-        const newTurn = await createNewTurn(date, time, userId);
+        const newTurn = await createNewTurnService(date, time, userId);
         res.status(200).json(newTurn);
     } catch(error){
         console.error('Error:', error);
@@ -46,7 +45,7 @@ export async function createNewTurnController(req:Request, res:Response) {
 export async function cancelTurnController(req:Request, res:Response) {
     try{
         const {id} = req.body;
-        await cancelTurn(id)
+        await cancelTurnService(id)
         res.status(200).json("Turno cancelado con exito");
     } catch(error){
         console.error('Error:', error);

@@ -1,40 +1,37 @@
-import ITurn, { statusEnum } from "../interfaces/ITurn";
+import { TurnModel, UserModel } from "../config/data-source";
+import { Turn } from "../entities/Turn";
+import { User } from "../entities/User";
+import { statusEnum } from "../interfaces/ITurn";
 
-let turns: ITurn[] = []
 
-let id: number = 1;
-
-export const getTurnsService = async (): Promise<ITurn[]>  => {
+export const getTurnsService = async (): Promise<Turn[]>  => {
+    const turns = await TurnModel.find({relations: ["User"]});
     return turns;
 }
 
-export const getTurnById = async (id:number): Promise <ITurn | null> => {
-    const turn = turns.find((turn: ITurn) => turn.id === id);
+export const getTurnByIdService = async (id:number): Promise <Turn | null> => {
+    const turns = await TurnModel.find({relations: ["User"]});
+    const turn = turns.find((User)=> User.id === id);
     return turn || null;
 }
 
-export const createNewTurn = async (date:Date, time: Date, userId:number) =>{
-    if(!userId){
-        throw new Error("No se proporncionó un ID de usuario")
-    }
-    const newTurn: ITurn ={
-        id,
-        date,
-        time,
-        userId,
-        status: statusEnum.active
-    };
-    turns.push(newTurn);
-    id++;
+export const createNewTurnService = async (date:Date, time: string, userId:number): Promise <Turn> =>{
+    const newTurn: Turn = await TurnModel.create({date, time});
+    newTurn.status = statusEnum.active;
+    const user: User | null = await UserModel.findOneBy({id: userId});
+    newTurn.User = user;
+
+    await TurnModel.save(newTurn);
+
+    return newTurn;
 };
 
-export const cancelTurn = async (id:number): Promise<void> => {
-    const turn = turns.find((turn) => turn.id === id)
+export const cancelTurnService = async (id:number): Promise<void> => {
+    const turn: Turn | null = await TurnModel.findOneBy({id});
     if(turn){
         turn.status = statusEnum.cancelled;
+        await TurnModel.save(turn);
     } else {
         throw new Error(`Turno con id ${id} no encontrado`);
     }
 };
-
-

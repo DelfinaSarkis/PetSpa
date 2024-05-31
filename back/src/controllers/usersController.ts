@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import IUser from "../interfaces/IUsers";
 import { createUserService, getUserByIdService, getUserService } from "../services/usersService";
+import { User } from "../entities/User";
 
 export async function getUsersController(req:Request, res:Response) {
     try{
-        const users: IUser[] = await getUserService();
+        const users: User[] = await getUserService();
         res.status(200).json(users);
     }
     catch(error){
