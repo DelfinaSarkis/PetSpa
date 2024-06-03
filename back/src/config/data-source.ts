@@ -15,9 +15,5 @@ export const AppDataSource = new DataSource({
     entities: [User, Turn, Credential],
     subscribers: [],
     migrations: [],
-    //dropSchema: true
+    dropSchema: true
 })
-
-export const UserModel = AppDataSource.getRepository(User);
-export const TurnModel = AppDataSource.getRepository(Turn);
-export const CredentialModel = AppDataSource.getRepository(Credential);

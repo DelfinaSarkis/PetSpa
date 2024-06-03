@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { createUserService, getUserByIdService, getUserService } from "../services/usersService";
 import { User } from "../entities/User";
+import { loginCredentialService } from "../services/credentialService";
 
 export async function getUsersController(req:Request, res:Response) {
     try{
@@ -44,11 +45,21 @@ export async function createUserController(req:Request, res:Response) {
     }    
 };
 
-export async function postUsersLogin(req:Request, res:Response){
+export async function userLogin(req:Request, res:Response){
     try{
-        
+        const {username, password} = req.body;
+        if(!username || !password){
+            return res.status(400).json({error:"Completa todos los campos por favor"})
+        }
+        const credential = await loginCredentialService(username, password);
+        if (credential){
+            res.status(200).json(credential);
+        } else{
+            return res.status(400).json({error: 'Credenciales incorrectas'})
+        }
     }
-    catch{
-        console.log(Error);
+    catch(error){
+        console.log('Error:', error);
+        res.status(500).json({error: 'Error al intentar iniciar sesión'})
     } 
 };

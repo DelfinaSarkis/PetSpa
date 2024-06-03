@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { cancelTurnService, createNewTurnService, getTurnByIdService, getTurnsService } from "../services/turnService";
+import { statusEnum } from "../interfaces/ITurn";
+import { TurnDto } from "../dto/turnDto";
 
 
 export async function getTurnsController(req:Request, res:Response) {
@@ -28,17 +30,23 @@ export async function getTurnByIdController(req:Request, res:Response) {
 };
 
 export async function createNewTurnController(req:Request, res:Response) {
+    const {date, time, userId} = req.body;
     try{
-        const {date, time, userId} = req.body;
         if(!userId){
             res.status(400).json({error: 'No se encuentra el usuario para asignarle el turno'});
             return;
         }
-        const newTurn = await createNewTurnService(date, time, userId);
-        res.status(200).json(newTurn);
+        const newTurnData: TurnDto = {
+            date: new Date(date),
+            time: time,
+            userId: userId,
+            status: statusEnum.active
+        };
+        const newTurn = await createNewTurnService(newTurnData);
+        res.status(201).json(newTurn);
     } catch(error){
         console.error('Error:', error);
-        res.status(500).json({error:'Error al crear turno'});
+        res.status(400).json({error:'Error al crear turno'});
     }
 };
 
