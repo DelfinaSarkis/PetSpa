@@ -1,12 +1,13 @@
-import Home from "./views/Home"
-import Turnos from "./views/Turnos"
+
+import MisTurnos from "./views/MisTurnos/MisTurnos"
+import NavBar from "./components/NavBar/NavBar"
 
 function App() {
-
+  
   return (
     <>
-      <Home />
-      <Turnos />
+    <NavBar/>
+      <MisTurnos />
     </>
   )
 }
