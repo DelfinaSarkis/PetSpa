@@ -7,8 +7,8 @@ import { preloadTurnData, preloadUserData } from "./helpers/preloadData";
 
 const initializeApp = async () => {
     await AppDataSource.initialize()
-    await preloadUserData();
-    await preloadTurnData();
+    // await preloadUserData();
+    // await preloadTurnData();
     server.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
         

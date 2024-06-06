@@ -15,5 +15,5 @@ export const AppDataSource = new DataSource({
     entities: [User, Turn, Credential],
     subscribers: [],
     migrations: [],
-    //dropSchema: true
+    // dropSchema: true
 })
