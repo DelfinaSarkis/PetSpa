@@ -1,0 +1,25 @@
+.nav-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+        background-color: #2080ff;
+}
+
+.navbar {
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+    width: 100%;
+    padding: 20px 600px 20px 450px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    margin: 0 15px; /* Ajusta el margen según tus necesidades */
+}
+
+.nav-link:hover {
+    color: orange; 
+}

@@ -1,0 +1,90 @@
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 20px;
+    margin-top: 0px;
+}
+
+.login{
+    margin-top: 0px;
+}
+
+form {
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5px;
+    color: #555;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+input[type="password"]{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #3b3a3a;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1rem;
+}
+
+button[type="submit"]:disabled{
+    background-color: #9E9E9E;
+}
+
+button[type="submit"]:hover:enabled{
+    background-color: #45a049;
+}
+
+p {
+    text-align: center;
+    color:red;
+}
+
+p.success{
+    color:green;
+}
+
+input:focus{
+    outline: none;
+    border-color: #4CAF50;
+}

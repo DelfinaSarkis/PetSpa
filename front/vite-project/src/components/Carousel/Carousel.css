@@ -1,0 +1,25 @@
+
+.custom-carousel {
+    margin-top: 0px;
+    width: 80%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.custom-carousel img {
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.custom-carousel .legend {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
