@@ -1,10 +1,3 @@
-body {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
 .form-container {
     display: flex;
     justify-content: center;
@@ -14,7 +7,7 @@ body {
     margin-top: 0px;
 }
 
-.login{
+.login {
     margin-top: 0px;
 }
 
@@ -32,6 +25,7 @@ h2 {
     text-align: center;
     margin-bottom: 25px;
     color: #333;
+    font-family: "Rubik", sans-serif;
 }
 
 div {
@@ -43,13 +37,14 @@ label {
     margin-bottom: 0.5px;
     color: #555;
     font-weight: bold;
+    font-family:  "Rubik", sans-serif;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="date"],
 input[type="number"],
-input[type="password"]{
+input[type="password"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #3b3a3a;
@@ -62,29 +57,29 @@ button[type="submit"] {
     padding: 0.75rem;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     font-size: 1rem;
 }
 
-button[type="submit"]:disabled{
-    background-color: #9E9E9E;
+button[type="submit"]:disabled {
+    background-color: #9e9e9e;
 }
 
-button[type="submit"]:hover:enabled{
+button[type="submit"]:hover:enabled {
     background-color: #45a049;
 }
 
 p {
     text-align: center;
-    color:red;
+    color: red;
 }
 
-p.success{
-    color:green;
+p.success {
+    color: green;
 }
 
-input:focus{
+input:focus {
     outline: none;
-    border-color: #4CAF50;
+    border-color: #4caf50;
 }

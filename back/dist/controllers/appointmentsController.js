@@ -9,28 +9,81 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putAppointmentsCancel = exports.postAppointmentsSchedule = exports.getAppointmentsTurn = exports.getAppointmentsList = void 0;
-function getAppointmentsList(req, res) {
+exports.cancelTurnController = exports.createNewTurnController = exports.getTurnByIdController = exports.getTurnsController = void 0;
+const turnService_1 = require("../services/turnService");
+const ITurn_1 = require("../interfaces/ITurn");
+function getTurnsController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).send("Obtiene el listado de todos los turnos de todos los usuarios");
+        try {
+            const turns = yield (0, turnService_1.getTurnsService)();
+            res.status(200).json(turns);
+        }
+        catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Error al obtener turnos' });
+        }
     });
 }
-exports.getAppointmentsList = getAppointmentsList;
-function getAppointmentsTurn(req, res) {
+exports.getTurnsController = getTurnsController;
+;
+function getTurnByIdController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).send("Obtiene un turno específico");
+        try {
+            const id = (Number(req.params.id));
+            const turn = yield (0, turnService_1.getTurnByIdService)(id);
+            if (turn) {
+                res.status(200).json(turn);
+            }
+            else {
+                res.status(404).json({ error: 'Turno no encontrado' });
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Error al obtener turno' });
+        }
     });
 }
-exports.getAppointmentsTurn = getAppointmentsTurn;
-function postAppointmentsSchedule(req, res) {
+exports.getTurnByIdController = getTurnByIdController;
+;
+function createNewTurnController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).send("Agenda un nuevo turno");
+        const { date, time, userId } = req.body;
+        try {
+            if (!userId) {
+                res.status(400).json({ error: 'No se encuentra el usuario para asignarle el turno' });
+                return;
+            }
+            const newTurnData = {
+                date: new Date(date),
+                time: time,
+                userId: userId,
+                status: ITurn_1.statusEnum.active
+            };
+            const newTurn = yield (0, turnService_1.createNewTurnService)(newTurnData);
+            res.status(201).json(newTurn);
+        }
+        catch (error) {
+            console.error('Error:', error);
+            res.status(400).json({ error: 'Error al crear turno' });
+        }
     });
 }
-exports.postAppointmentsSchedule = postAppointmentsSchedule;
-function putAppointmentsCancel(req, res) {
+exports.createNewTurnController = createNewTurnController;
+;
+function cancelTurnController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).send('Cambia el estatus de un turno a "cancelled"');
+        try {
+            const { id } = req.params;
+            console.log(id);
+            yield (0, turnService_1.cancelTurnService)(Number(id));
+            res.status(200).json("AAAAAAA");
+        }
+        catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Error al cancelar el turno' });
+        }
     });
 }
-exports.putAppointmentsCancel = putAppointmentsCancel;
+exports.cancelTurnController = cancelTurnController;
+;

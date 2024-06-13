@@ -54,7 +54,7 @@ export const createNewTurnService = async (turn: TurnDto): Promise <Turn | void>
 };
 
 export const cancelTurnService = async (id:number): Promise<void> => {
-    const turn: Turn | null = await TurnRepository.findOneBy({id});
+    const turn: Turn | null = await TurnRepository.findOne({where: {id: id}});
     if(turn){
         turn.status = statusEnum.cancelled;
         await TurnRepository.save(turn);

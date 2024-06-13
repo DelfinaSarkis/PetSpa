@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import validateRegister from "../../helpers/validateRegister";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { addUser } from "../../redux/reducer";
 
 function Register() {
+const dispatch = useDispatch();
 const navigate = useNavigate();
 const [userData, setUserData] = useState({
     name: '',
@@ -36,16 +39,17 @@ const handleOnSubmit = async (event) => {
 
     if (Object.keys(validationErrors).length === 0){
         try{
-            const response = axios.post('http://localhost:3000/users/register', {
+            const response = await axios.post('http://localhost:3000/users/register', {
                 name: userData.name,
                 email: userData.email,
                 birthdate: userData.birthdate,
                 nDni: userData.nDni,
                 username: userData.username,
-                password: userData.password
+                password: userData.password 
             });
             setMessage('Registro exitoso');
-            console.log(response.data);
+            console.log(response.data.id);
+            dispatch(addUser(response.data.id));
             }catch (error){
         if(error.response){
             setMessage(`Error: ${error.response.data.message}`);

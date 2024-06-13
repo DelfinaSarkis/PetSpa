@@ -1,16 +1,23 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-
-}
-
-.titulo{
-    text-align: center;
-    font-size: 40px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 .about-container {
+    display: flex;
+    margin: 50px;
+}
+.titulo {
     text-align: center;
+    color: rgb(0, 98, 209);
+    padding-bottom: 20px;
+    border: 10px;
+    font-family: "DM Serif Text", sans-serif;
+    font-weight: 500;
+    font-size: 80px;
+}
+.descripcionAbout {
+    width: 90%;
+    margin: auto;
+    padding: 40px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(84, 138, 255);
+    border-radius: 20px;
+    font-family: "Rubik", sans-serif;
 }

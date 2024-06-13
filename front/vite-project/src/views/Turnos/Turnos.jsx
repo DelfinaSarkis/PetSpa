@@ -1,17 +1,40 @@
-import Footer from '../../components/Footer/Footer';
-import MisTurnos from './MisTurnos';
-import './Turnos.css';
+import { useState } from "react";
+import MisTurnos from "./MisTurnos";
+import Modal from "../../components/Modal/modal";
+import "./Turnos.css";
 
 const Turno = () => {
-    return (
-        <div>
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newTurno, setNewTurno] = useState(null);
 
-        <h1 className='titulo'>Turnos</h1>
-        <MisTurnos />
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
-    <Footer />
-</div>
-    );
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = (turno) => {
+    setNewTurno(turno);
+};
+
+  return (
+    <div className="turnos-container">
+      <div>
+        <h1 className="titulo">Turnos</h1>
+        <MisTurnos newTurno={newTurno}/>
+        <button className="btn-turnos" onClick={handleOpenModal}>
+          Agregar Turno
+        </button>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSubmit={handleSubmit}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Turno;

@@ -8,37 +8,62 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CancelTurn = exports.createNewTurn = exports.getTurnById = exports.getTurnsService = void 0;
+exports.cancelTurnService = exports.createNewTurnService = exports.getTurnByIdService = exports.getTurnsService = void 0;
+const data_source_1 = require("../config/data-source");
 const ITurn_1 = require("../interfaces/ITurn");
-let turns = [];
-let id = 1;
+const TurnRepository_1 = __importDefault(require("../repositories/TurnRepository"));
+const UserRepository_1 = __importDefault(require("../repositories/UserRepository"));
 const getTurnsService = () => __awaiter(void 0, void 0, void 0, function* () {
+    const turns = yield TurnRepository_1.default.find({ relations: ["User"] });
     return turns;
 });
 exports.getTurnsService = getTurnsService;
-const getTurnById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const turn = turns.find((turn) => turn.id === id);
+const getTurnByIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const turns = yield TurnRepository_1.default.find({ relations: ["User"] });
+    const turn = turns.find((User) => User.id === id);
     return turn || null;
 });
-exports.getTurnById = getTurnById;
-const createNewTurn = (date, time, userId, status) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!userId) {
-        throw new Error("No se proporncionó un ID de usuario");
+exports.getTurnByIdService = getTurnByIdService;
+const createNewTurnService = (turn) => __awaiter(void 0, void 0, void 0, function* () {
+    const queryRunner = data_source_1.AppDataSource.createQueryRunner();
+    yield queryRunner.connect();
+    try {
+        queryRunner.startTransaction();
+        const newTurn = yield TurnRepository_1.default.create(turn);
+        yield queryRunner.manager.save(newTurn);
+        const user = yield UserRepository_1.default.findById(turn.userId);
+        newTurn.User = user;
+        yield queryRunner.manager.save(newTurn);
+        yield queryRunner.commitTransaction();
+        return newTurn;
     }
-    const newTurn = {
-        id,
-        date,
-        time,
-        userId,
-        status: ITurn_1.statusEnum.active
-    };
-    turns.push(newTurn);
-    id++;
+    catch (error) {
+        yield queryRunner.rollbackTransaction();
+        throw Error("Usuario inexistente");
+    }
+    finally {
+        yield queryRunner.release();
+    }
+    // const newTurn: Turn = await TurnModel.create({date, time});
+    // newTurn.status = statusEnum.active;
+    // const user: User | null = await UserModel.findOneBy({id: userId});
+    // newTurn.User = user;
+    // await TurnModel.save(newTurn);
+    // return newTurn;
 });
-exports.createNewTurn = createNewTurn;
-const CancelTurn = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const turn = turns.find((turn) => turn.id === id);
-    turn.status = ITurn_1.statusEnum.cancelled;
+exports.createNewTurnService = createNewTurnService;
+const cancelTurnService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const turn = yield TurnRepository_1.default.findOne({ where: { id: id } });
+    if (turn) {
+        turn.status = ITurn_1.statusEnum.cancelled;
+        yield TurnRepository_1.default.save(turn);
+    }
+    else {
+        throw new Error(`Turno con id ${id} no encontrado`);
+    }
 });
-exports.CancelTurn = CancelTurn;
+exports.cancelTurnService = cancelTurnService;

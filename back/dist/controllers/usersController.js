@@ -9,35 +9,81 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postUsersLogin = exports.postUsersRegister = exports.getUsersId = exports.getUsersList = void 0;
+exports.userLogin = exports.createUserController = exports.getUserByIdController = exports.getUsersController = void 0;
 const usersService_1 = require("../services/usersService");
-const console_1 = require("console");
-function getUsersList(req, res) {
+const credentialService_1 = require("../services/credentialService");
+function getUsersController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const users = yield (0, usersService_1.getUserService)();
+            res.status(200).json(users);
         }
-        catch (_a) {
-            console.log(console_1.error);
+        catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Error al obtener usuarios' });
         }
     });
 }
-exports.getUsersList = getUsersList;
-function getUsersId(req, res) {
+exports.getUsersController = getUsersController;
+;
+function getUserByIdController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).send("Obtiene el detalle de un usuario específico");
+        try {
+            const id = (Number(req.params.id));
+            const user = yield (0, usersService_1.getUserByIdService)(id);
+            if (user) {
+                res.status(200).json(user);
+            }
+            else {
+                res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+            res.status(400).json({ error: 'Error al obtener usuario' });
+        }
     });
 }
-exports.getUsersId = getUsersId;
-function postUsersRegister(req, res) {
+exports.getUserByIdController = getUserByIdController;
+;
+function createUserController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).send("Registro de un nuevo usuario");
+        try {
+            const { name, email, birthdate, nDni, username, password } = req.body;
+            if (!name || !email || !birthdate || !nDni || !username || !password) {
+                res.status(400).json({ error: "Completa todos los campos por favor" });
+            }
+            const newUser = yield (0, usersService_1.createUserService)({ name, email, birthdate, nDni }, { username, password });
+            res.status(201).json(newUser);
+        }
+        catch (error) {
+            console.error('Error:', error);
+            res.status(400).json({ error: 'Error al crear usuario' });
+        }
     });
 }
-exports.postUsersRegister = postUsersRegister;
-function postUsersLogin(req, res) {
+exports.createUserController = createUserController;
+;
+function userLogin(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).send("Login del usuario a la aplicación");
+        try {
+            const { username, password } = req.body;
+            if (!username || !password) {
+                return res.status(400).json({ error: "Completa todos los campos por favor" });
+            }
+            const credential = yield (0, credentialService_1.loginCredentialService)(username, password);
+            if (credential) {
+                res.status(200).json(credential);
+            }
+            else {
+                return res.status(400).json({ error: 'Credenciales incorrectas' });
+            }
+        }
+        catch (error) {
+            console.log('Error:', error);
+            res.status(500).json({ error: 'Error al intentar iniciar sesión' });
+        }
     });
 }
-exports.postUsersLogin = postUsersLogin;
+exports.userLogin = userLogin;
+;

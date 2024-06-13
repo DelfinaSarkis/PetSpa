@@ -8,32 +8,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUserService = exports.getUserByIdService = exports.getUserService = void 0;
+const UserRepository_1 = __importDefault(require("../repositories/UserRepository"));
 const credentialService_1 = require("./credentialService");
-let users = [];
-let id = 1;
 const getUserService = () => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield UserRepository_1.default.find({ relations: ["Turn"] });
     return users;
 });
 exports.getUserService = getUserService;
 const getUserByIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = users.find((user) => user.id === id);
+    const users = yield UserRepository_1.default.find({ relations: ["Turn"] });
+    const user = users.find((Turn) => Turn.id === id);
     return user || null;
 });
 exports.getUserByIdService = getUserByIdService;
-const createUserService = (user, credential) => __awaiter(void 0, void 0, void 0, function* () {
-    const newCredentialId = yield (0, credentialService_1.createCredentialService)(credential.username, credential.password);
-    const newUser = {
-        id,
-        name: user.name,
-        email: user.email,
-        birthdate: user.birthdate,
-        nDni: user.nDni,
-        credentialsId: newCredentialId
-    };
-    users.push(newUser);
-    id++;
+const createUserService = (users, credential) => __awaiter(void 0, void 0, void 0, function* () {
+    const newUser = yield UserRepository_1.default.create(users);
+    const newCredential = yield (0, credentialService_1.createCredentialService)(credential.username, credential.password);
+    newUser.Credential = newCredential;
+    const result = yield UserRepository_1.default.save(newUser);
     return newUser;
 });
 exports.createUserService = createUserService;

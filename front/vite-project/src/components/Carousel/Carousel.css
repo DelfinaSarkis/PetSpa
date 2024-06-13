@@ -1,25 +1,51 @@
-
 .custom-carousel {
     margin-top: 0px;
-    width: 80%;
+    width: 40%;
     height: auto;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-}
-
-.custom-carousel img {
-    width: auto;
+  }
+  
+  .custom-carousel img {
+    width: 100%;
     height: auto;
     box-sizing: border-box;
-}
-
-.custom-carousel .legend {
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
+    border-radius: 20px;
+  }
+  
+  .custom-carousel .legend {
+    background: rgba(48, 46, 46, 0.7);
     padding: 10px;
     position: absolute;
     bottom: 0;
     width: 100%;
     text-align: center;
-}
+  }
+  
+  .carousel .slide .legend {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: "Rubik", sans-serif;
+    background: rgba(48, 46, 46, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(48, 46, 46, 0.3);
+    color: white;
+  }
+  
+  .carousel {
+    margin: 0;
+  }
+  
+  .carousel .control-dots .dot {
+    background-color: #fff; /* Cambiar color de los puntos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Opcional: añadir sombra a los puntos */
+  }
+  
+  .dot {
+    opacity: 1;
+  }
+  

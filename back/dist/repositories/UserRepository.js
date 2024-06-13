@@ -8,20 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./server"));
-const envs_1 = require("./config/envs");
-require("reflect-metadata");
-const data_source_1 = require("./config/data-source");
-const initializeApp = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield data_source_1.AppDataSource.initialize();
-    // await preloadUserData();
-    // await preloadTurnData();
-    server_1.default.listen(envs_1.PORT, () => {
-        console.log(`Server listening on port ${envs_1.PORT}`);
-    });
+const data_source_1 = require("../config/data-source");
+const User_1 = require("../entities/User");
+const UserRepository = data_source_1.AppDataSource.getRepository(User_1.User).extend({
+    findById: function (id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.findOneBy({ id });
+            if (user)
+                return user;
+            else
+                throw Error("Invalid ID");
+        });
+    },
+    checkById: function (id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.findById(id);
+            return !!user;
+        });
+    }
 });
-initializeApp();
+exports.default = UserRepository;

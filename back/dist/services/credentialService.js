@@ -8,23 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateCredentialService = exports.createCredentialService = void 0;
-let credentials = [];
-let id = 1;
+exports.loginCredentialService = exports.createCredentialService = void 0;
+const CredentialRepository_1 = __importDefault(require("../repositories/CredentialRepository"));
 const createCredentialService = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const newCredential = {
-        id,
-        username,
-        password
-    };
-    credentials.push(newCredential);
-    id++;
-    return newCredential.id;
+    const credential = yield CredentialRepository_1.default.create({ username, password });
+    const result = yield CredentialRepository_1.default.save(credential);
+    return credential;
 });
 exports.createCredentialService = createCredentialService;
-const validateCredentialService = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const credential = credentials.find((credential) => credential.username === username);
+const loginCredentialService = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
+    const credential = yield CredentialRepository_1.default.findOne({ where: { username } });
     if (credential && credential.password === password) {
         return credential.id;
     }
@@ -32,4 +29,4 @@ const validateCredentialService = (username, password) => __awaiter(void 0, void
         return null;
     }
 });
-exports.validateCredentialService = validateCredentialService;
+exports.loginCredentialService = loginCredentialService;

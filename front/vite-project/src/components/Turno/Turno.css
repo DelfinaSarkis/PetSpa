@@ -3,17 +3,52 @@
     border-radius: 8px;
     padding: 16px;
     margin: 16px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-.turno-id, .turno-date, .turno-time, .turno-status {
-    margin: 4px 0;
+    background: rgba(15, 107, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(15, 107, 255, 0.3);
 }
 
-.turno-status.confirmed {
+.turno-id, .turno-date, .turno-time {
+    margin: 4px 0;
+    color: black;
+    text-transform: uppercase;
+    font-family: "Rubik", sans-serif;
+    font-size: 1.6em;
+}
+
+.turno-status {
+    margin: 4px 0;
+    font-size: 2em;
+}
+
+.turno-status.active {
     color: green;
+    font-size: 2em;
 }
 
 .turno-status.cancelled {
     color: red;
+    font-size: 2em;
+}
+.boton {
+    background: black;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(241, 156, 65, 0.3);
+    font-size: 1.5em;
+    font-weight: 200;
+    color: white;
+    font-family: "Rubik", sans-serif;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-top: 5%;
+    padding: 10px;
 }

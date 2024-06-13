@@ -52,9 +52,10 @@ export async function createNewTurnController(req:Request, res:Response) {
 
 export async function cancelTurnController(req:Request, res:Response) {
     try{
-        const {id} = req.body;
-        await cancelTurnService(id)
-        res.status(200).json("Turno cancelado con exito");
+        const { id } = req.params;
+        console.log(id)
+        await cancelTurnService(Number(id))
+        res.status(200).json("Turno cancelado con éxito");
     } catch(error){
         console.error('Error:', error);
         res.status(500).json({error:'Error al cancelar el turno'});

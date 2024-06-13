@@ -3,39 +3,41 @@ footer {
     background-color: #33333300;
     color: white;
     text-align: center;
-    padding: 1rem 0;
     position: fixed;
     bottom: 0;
-}
-
-footer p {
+    margin-top: 60px;
+    padding: 20px;
+  }
+  
+  footer p {
     margin-bottom: 0;
     margin-left: 10px;
     font-size: 1rem;
     color: rgba(0, 0, 0, 0.788);
     text-align: left;
-}
-
-footer a {
-    color: #4CAF50;
+  }
+  
+  footer a {
+    color: #4caf50;
     text-decoration: none;
     margin: 0 10px;
-}
-
-footer a:hover {
+  }
+  
+  footer a:hover {
     text-decoration: underline;
-}
-
-footer .social-icons {
+  }
+  
+  footer .social-icons {
     margin-top: 0.5rem;
-}
-
-footer .social-icons a {
+  }
+  
+  footer .social-icons a {
     margin: 0 5px;
     display: inline-block;
-}
-
-footer .social-icons img {
+  }
+  
+  footer .social-icons img {
     width: 24px;
     height: 24px;
-}
+  }
+  
